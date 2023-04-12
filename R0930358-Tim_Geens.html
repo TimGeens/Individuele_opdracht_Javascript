@@ -12,7 +12,9 @@
 
 <body>
     <div class="container shadow p-3 mb-5 bg-body rounded my-5">
-        <form action="">
+        <div class="row">
+<div class="container form">
+<form action="">
             <h1>Registreer</h1>
             <h4>
                 Meld je aan bij Anoroc Services, wij beschermen jouw software tegen
@@ -33,7 +35,7 @@
                     <label for="Gebruikersnaam" class="form-label">Gebruikersnaam</label>
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon1">@</span>
-                        <input type="text" class="form-control" id="Gebruikersnaam" placeholder="u911236"
+                        <input type="text" class="form-control" id="gebruikersnaam" placeholder="u911236"
                             aria-label="Username" aria-describedby="basic-addon1" />
                     </div>
                 </div>
@@ -135,10 +137,123 @@
                 <hr class="divider">
             </div>
             <div class="d-grid gap-2">
-                <button class="btn btn-primary" type="button">Wave your magic wand</button>
+                <button class="btn btn-primary mwButton" type="button">Wave your magic wand</button>
               </div>
         </form>
+        </div>
+        <div class="container meldingen">
+            
+        </div>
+        </div>
     </div>
+    <script>
+        let errors = []
+        document.querySelector('.mwButton').addEventListener('click', validateForm)
+
+        let voornaamField = document.querySelector('#voornaam')
+        let familieNaamField = document.querySelector('#familieNaam')
+        let gebruikersnaamField = document.querySelector('#gebruikersnaam')
+        let adresField = document.querySelector('#adres')
+        let landField = document.querySelector('#land')
+        let provincieField = document.querySelector('#provincie')
+        let emailAdresField = document.querySelector('#emailAdres')
+
+        function validateForm()
+        {
+            errors = []
+            checkEmptyField(voornaamField, 'Het veld voornaam is vereist')
+            checkEmptyField(familieNaamField, 'Het veld naam is vereist')
+            checkEmptyField(gebruikersnaamField, 'Het veld gebruikersnaam is vereist')
+            checkEmptyField(emailAdresField, 'Het veld email is vereist')
+
+            if(!validateEmail(emailAdresField) && emailAdresField.value != ''){
+                errors.push('E-mailaders is niet correct')
+            }
+
+            checkEmptyField(adresField, 'Adres is vereist')
+            checkEmptyField(landField, 'Land is vereist')
+            checkEmptyField(provincieField, 'Provincie is vereist')
+
+            changeLayout()
+        }
+
+        function checkEmptyField(veld, melding)
+        {
+            if(veld.value == "" || veld.value == 'Kies een land' || veld.value == 'Kies een provincie')
+            {
+                errors.push(melding)
+            }
+        }
+
+        function validateEmail(emailadres)
+        {
+            //https://www.simplilearn.com/tutorials/javascript-tutorial/email-validation-in-javascript
+            let validRegex = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+
+            if(emailadres.value.match(validRegex)){
+                if(emailadres.value.charAt(0) == '.' || emailadres.value.charAt(0) == '-')
+                {   
+                    return false
+                }
+                else
+                {
+                    return true
+                }
+            }
+            else 
+            {
+                return false
+            }
+        }
+
+        function changeLayout()
+        {
+            //https://stackoverflow.com/questions/195951/how-can-i-change-an-elements-class-with-javascript
+            let form = document.querySelector('.form').classList.add('col-7')
+
+            let meldingenColumn = document.querySelector('.meldingen')
+
+            //me maken de meldingencollumn eerst leeg.
+            meldingenColumn.innerHTML = ''
+
+            meldingenColumn.classList.add('col-5')
+
+            let header = document.createElement('h1')
+            let message = document.createElement('p')
+
+            if(errors.length > 0)
+            {
+                //Aanmaken en invullen van de rode meldingsbox.
+                let allertBox = document.createElement('div')
+                //https://stackoverflow.com/questions/22133722/javascript-invalidcharactererror-when-modifying-a-css-name-with-a-space
+                allertBox.classList.add('alert', 'alert-danger')
+                //https://stackoverflow.com/questions/68470335/role-value-with-dom-javascript
+                allertBox.setAttribute('role', 'alert')
+                meldingenColumn.appendChild(allertBox)
+                allertBox.appendChild(header)
+                allertBox.appendChild(message)
+
+                header.innerHTML = 'Yikes, errors..'
+
+                for (let index = 0; index < errors.length; index++) {
+                    message.innerHTML += errors[index] + '<br>'
+                }
+            }
+            else
+            {
+                //Aanmaken en invullen can de groene meldingsbox.
+                let allertBox = document.createElement('div')
+                allertBox.classList.add('alert', 'alert-success')
+                allertBox.setAttribute('role', 'alert')
+                meldingenColumn.appendChild(allertBox)
+                allertBox.appendChild(header)
+                allertBox.appendChild(message)
+
+                header.innerHTML = 'Goed gedaan!'
+                message.innerHTML = 'Aww yeah, je werd geregistreerd'
+            }
+        }
+    </script>
 
     <script src="js/bootstrap.bundle.min.js"></script>
 </body>
