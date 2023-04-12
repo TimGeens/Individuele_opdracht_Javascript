@@ -191,6 +191,7 @@
             let validRegex = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
 
             if(emailadres.value.match(validRegex)){
+                //https://www.freecodecamp.org/news/how-to-capitalize-the-first-letter-of-a-string-in-javascript/#:~:text=1.-,Get%20the%20First%20Letter%20of%20the%20String,first%20character%20of%20the%20string.&text=NOTE%3A%20charAt%20is%20preferable%20than,in%20case%20of%20%27%27%5B0%5D%20.
                 if(emailadres.value.charAt(0) == '.' || emailadres.value.charAt(0) == '-')
                 {   
                     return false
