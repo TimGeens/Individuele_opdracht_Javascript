@@ -108,26 +108,26 @@
                 <div class="col-sm-6">
                     <h3>Betaling</h3>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
-                        <label class="form-check-label" for="flexRadioDefault1">
+                        <input class="form-check-input" type="radio" name="RadioBetalingen" id="bankingApp" value="Banking app" checked>
+                        <label class="form-check-label" for="bankingApp">
                           Banking app
                         </label>
                       </div>
                       <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
-                        <label class="form-check-label" for="flexRadioDefault2">
+                        <input class="form-check-input" type="radio" name="RadioBetalingen" id="overschrijving" value="Overschrijving">
+                        <label class="form-check-label" for="overschrijving">
                           Overschrijving
                         </label>
                       </div>
                       <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3">
-                        <label class="form-check-label" for="flexRadioDefault2">
+                        <input class="form-check-input" type="radio" name="RadioBetalingen" id="visa" value="Visa card">
+                        <label class="form-check-label" for="visa">
                           Visa card
                         </label>
                       </div>
                       <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault4">
-                        <label class="form-check-label" for="flexRadioDefault2">
+                        <input class="form-check-input" type="radio" name="RadioBetalingen" id="paypal" value="Paypal">
+                        <label class="form-check-label" for="paypal">
                           Paypal
                         </label>
                       </div>
@@ -153,11 +153,13 @@
         let voornaamField = document.querySelector('#voornaam')
         let familieNaamField = document.querySelector('#familieNaam')
         let gebruikersnaamField = document.querySelector('#gebruikersnaam')
+        let emailAdresField = document.querySelector('#emailAdres')
+        let wachtwoordField = document.querySelector('#wachtwoord')
+        let wachtwoordHerhaalField = document.querySelector('#wachtwoordHerhaal')
         let adresField = document.querySelector('#adres')
         let landField = document.querySelector('#land')
         let provincieField = document.querySelector('#provincie')
-        let emailAdresField = document.querySelector('#emailAdres')
-
+        
         function validateForm()
         {
             errors = []
@@ -169,6 +171,8 @@
             if(!validateEmail(emailAdresField) && emailAdresField.value != ''){
                 errors.push('E-mailaders is niet correct')
             }
+
+            validatePassword(wachtwoordField, wachtwoordHerhaalField)
 
             checkEmptyField(adresField, 'Adres is vereist')
             checkEmptyField(landField, 'Land is vereist')
@@ -188,11 +192,14 @@
         function validateEmail(emailadres)
         {
             //https://www.simplilearn.com/tutorials/javascript-tutorial/email-validation-in-javascript
-            let validRegex = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+            let validRegex = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-.]+(?:\.[a-zA-Z0-9-]+)*$/
+
 
             if(emailadres.value.match(validRegex)){
                 //https://www.freecodecamp.org/news/how-to-capitalize-the-first-letter-of-a-string-in-javascript/#:~:text=1.-,Get%20the%20First%20Letter%20of%20the%20String,first%20character%20of%20the%20string.&text=NOTE%3A%20charAt%20is%20preferable%20than,in%20case%20of%20%27%27%5B0%5D%20.
-                if(emailadres.value.charAt(0) == '.' || emailadres.value.charAt(0) == '-')
+                if(emailadres.value.charAt(0) == '.' || emailadres.value.charAt(0) == '-' 
+                || emailadres.value.substring(emailadres.value.indexOf('@') +1, emailadres.value.indexOf('@') +2) == '.' 
+                || emailadres.value.substring(emailadres.value.indexOf('@') +1, emailadres.value.indexOf('@') +2) == '-')
                 {   
                     return false
                 }
@@ -207,20 +214,58 @@
             }
         }
 
+        function validatePassword(paswoord1, paswoord2)
+        {
+            if(paswoord1.value == '')
+            {
+                errors.push('Het veld wachtwoord is vereist')
+            }
+
+            if(paswoord1.value.length < 8 && paswoord1.value != '')
+            {
+                errors.push('Het wachtwoord moet uit minimum 8 karakters bestaan')
+            }
+
+            if(paswoord2.value == '')
+            {
+                errors.push('Het veld herhaal wachtwoord is vereist')
+            }
+
+            if(paswoord1.value != paswoord2.value && paswoord1.value != '' && paswoord2.value != '')
+            {
+                errors.push('Je wachtwoorden komen niet overeen')
+            }
+        }
+
+        function validatePayment()
+        {
+            //https://www.geeksforgeeks.org/how-to-get-value-of-selected-radio-button-using-javascript/
+            var betalingopties = document.getElementsByName('RadioBetalingen')
+
+            for (let i = 0; i < betalingopties.length; i++) {
+                if(betalingopties[i].checked)
+                {
+                    return betalingopties[i].value
+                }
+            }
+        }
+
         function changeLayout()
         {
             //https://stackoverflow.com/questions/195951/how-can-i-change-an-elements-class-with-javascript
-            let form = document.querySelector('.form').classList.add('col-7')
+            let form = document.querySelector('.form').classList.add('col-8')
 
             let meldingenColumn = document.querySelector('.meldingen')
 
-            //me maken de meldingencollumn eerst leeg.
+            //we maken de meldingencollumn eerst leeg.
             meldingenColumn.innerHTML = ''
 
-            meldingenColumn.classList.add('col-5')
+            meldingenColumn.classList.add('col-4')
 
             let header = document.createElement('h1')
+            let header2 = document.createElement('h1')
             let message = document.createElement('p')
+            let message2 = document.createElement('p')
 
             if(errors.length > 0)
             {
@@ -252,6 +297,17 @@
 
                 header.innerHTML = 'Goed gedaan!'
                 message.innerHTML = 'Aww yeah, je werd geregistreerd'
+
+                //Aanmaken en invullen can de blauwe meldingsbox.
+                let paymentBox = document.createElement('div')
+                paymentBox.classList.add('alert', 'alert-info')
+                paymentBox.setAttribute('role', 'alert')
+                meldingenColumn.appendChild(paymentBox)
+                paymentBox.appendChild(header2)
+                paymentBox.appendChild(message2)
+
+                header2.innerHTML = 'Betalingswijze'
+                message2.innerHTML = 'je betalingswijze is ' + validatePayment()
             }
         }
     </script>
