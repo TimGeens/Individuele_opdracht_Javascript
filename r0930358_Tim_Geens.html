@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div class="row pt-3">
-                <div class="col-sm-6">
+                <div class="col-sm-6" id="gebruikersnaamId">
                     <label for="Gebruikersnaam" class="form-label">Gebruikersnaam</label>
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon1">@</span>
@@ -40,18 +40,18 @@
                             aria-label="Username" aria-describedby="basic-addon1" />
                     </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-6" id="emailId">
                     <label for="emailAdres" class="form-label">Emailadres</label>
                     <input type="email" class="form-control" id="emailAdres" placeholder="mail@example.be" />
                 </div>
             </div>
             <div class="row pt-2">
-                <div class="col-sm-6">
+                <div class="col-sm-6" id="wachtwoordId">
                     <label for="wachtwoord" class="form-label">Wachtwoord</label>
                     <input type="password" class="form-control" id="wachtwoord" aria-describedby="passwordInfo" />
                     <div id="passwordInfo" class="form-text">Je wachtwoord moet minstens 8 tekens lang zijn.</div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-6" id="herhaalWachtwoordId">
                     <label for="wachtwoordHerhaal" class="form-label">Herhaal wachtwoord</label>
                     <input type="password" class="form-control" id="wachtwoordHerhaal" />
                 </div>
@@ -279,6 +279,12 @@
 
         function changeLayout()
         {
+            //We passen de form layout aan zoals in de afbeeldingen.
+            document.querySelector('#wachtwoordId').classList.replace('col-sm-6', 'col-sm-12')
+            document.querySelector('#herhaalWachtwoordId').classList.replace('col-sm-6', 'col-sm-12')
+            document.querySelector('#gebruikersnaamId').classList.replace('col-sm-6', 'col-sm-12')
+            document.querySelector('#emailId').classList.replace('col-sm-6', 'col-sm-12')
+
             //https://stackoverflow.com/questions/195951/how-can-i-change-an-elements-class-with-javascript
             let form = document.querySelector('.form').classList.add('col-8')
 
